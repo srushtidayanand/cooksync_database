@@ -1,0 +1,24 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Recipes</h2>
+<a href="{{ url_for('new_recipe') }}" class="btn btn-primary mb-3">Add New Recipe</a>
+
+<div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text"><strong>Ingredients:</strong><br>{{ recipe.ingredients }}</p>
+                <p class="card-text"><strong>Instructions:</strong><br>{{ recipe.instructions }}</p>
+                {% if recipe.user_id == session['user_id'] %}
+                <a href="{{ url_for('edit_recipe', id=recipe.id) }}" class="btn btn-warning">Edit</a>
+                <a href="{{ url_for('delete_recipe', id=recipe.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
